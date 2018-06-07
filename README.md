@@ -5,6 +5,25 @@
 
 (WIP) This plugin is a modified version of the built in cakephp paginator. Instead of using ``sortWhitelist`` there's now an option ``sortMap``where you can define mappings of fields to sort.
 
+
+In its simplest for you can just use the sortMap to rename sort keys
+
+```php
+[
+    'sortMap' => [
+        'foo' => 'bar'
+    ]
+]
+```
+
+Will result in sort order
+
+```
+[ 'bar' => 'asc' ]
+```
+
+A mapping can also consist of multiple sort fields grouped together:
+
 ```php
 [
     'sortMap' => [
@@ -16,7 +35,7 @@
 ]
 ```
 
-So when sorting on ``foo`` the following order will be passed to the datasource object (where the direction is passed from the ``foo`` argument)
+So when sorting on ``foo`` the following order clause will be passed to the datasource object (where the direction is passed from the ``foo`` argument)
 
 ````
 Article.name' => asc
