@@ -1,0 +1,7 @@
+.vscode
+/composer.lock
+/phpunit.xml
+/vendor
+/tmp
+/coverage
+/clover.xml

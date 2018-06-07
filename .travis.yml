@@ -1,0 +1,32 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+sudo: false
+
+env:
+  global:
+    - PHPCS=0
+    - RUN_TESTS=1
+
+matrix:
+  include:
+    - php: 7.1
+      env: PHPCS=1 RUN_TESTS=0
+
+before_script:
+  - sleep 7 # Work around elasticsearch startup time.
+  - phpenv rehash
+
+install:
+  - composer self-update
+  - composer install --prefer-dist --no-interaction
+
+script:
+  - if [[ $RUN_TESTS = 1 ]]; then composer test; fi
+  - if [[ $PHPCS = 1 ]]; then composer cs-check; fi
+
+notifications:
+  email: false
