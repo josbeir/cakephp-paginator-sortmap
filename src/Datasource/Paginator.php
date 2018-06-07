@@ -19,6 +19,7 @@ use Cake\Datasource\Exception\PageOutOfBoundsException;
 use Cake\Datasource\PaginatorInterface;
 use Cake\Datasource\QueryInterface;
 use Cake\Datasource\RepositoryInterface;
+use Cake\Utility\Hash;
 
 /**
  * This class is used to handle automatic model data pagination.
@@ -396,45 +397,43 @@ class Paginator implements PaginatorInterface
     {
         $map = $options['sortMap'] ?? [];
         $order = $options['order'];
+        $sort = $options['sort'];
         $field = key($order);
-        $orders = $normalized = [];
+        $orders = [];
 
-        if (!$options['sort'] && !$order) {
+        if (!$sort && !$order) {
             return $orders;
         }
 
-        foreach ($map as $key => $value) {
-            if (is_numeric($key)) {
-                $normalized[$value] = null;
-                continue;
-            }
-            $normalized[$key] = $value;
-        }
-
-        if ($options['sort'] && !array_key_exists($options['sort'], $normalized)) {
+        $normalized = Hash::normalize($map);
+        if ($sort && !array_key_exists($sort, $normalized)) {
             return $orders;
         }
 
         foreach ($normalized as $key => $value) {
             if ($value === null) {
                 $prefixed = $this->_prefixField($object, $key, true) ?: $key;
-                $orders[$prefixed] = $order[$field];
+                $orders[$key][$prefixed] = $order[$field];
                 continue;
             }
             if (is_array($value)) {
                 foreach ($value as $skey => $svalue) {
                     if (is_numeric($skey)) {
-                        $orders[$svalue] = $order[$field];
+                        $orders[$key][$svalue] = $order[$field];
                         continue;
                     }
-
-                    $orders[$skey] = $svalue;
+                    $orders[$key][$skey] = $svalue;
                 }
                 continue;
             }
+            $orders[$key][$value] = $order[$field];
         }
 
-        return $orders;
+        if (!$sort) {
+            return call_user_func_array('array_merge', $orders);
+        }
+
+        return $orders[$sort] ?? [];
     }
 
     /**

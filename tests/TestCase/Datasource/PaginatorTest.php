@@ -808,10 +808,9 @@ class PaginatorTest extends TestCase
         $model = $this->mockAliasHasFieldModel();
 
         $options = [
-            'sort' => 'body',
+            'sort' => 'fun',
             'direction' => 'asc',
             'sortMap' => [
-                'body',
                 'fun' => [
                     'body' => 'desc',
                     'mymodel.name' => 'asc'
@@ -821,7 +820,6 @@ class PaginatorTest extends TestCase
         $result = $this->Paginator->validateSort($model, $options);
 
         $expected = [
-            'model.body' => 'asc',
             'body' => 'desc',
             'mymodel.name' => 'asc',
         ];
