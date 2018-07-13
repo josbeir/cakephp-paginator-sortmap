@@ -7,6 +7,46 @@
 
 This plugin was created as a proof of concept after some discussion on slack and in an old [ticket](https://github.com/cakephp/cakephp/issues/10028#issuecomment-272812357) on the main cake repo.
 
+This plugin also makes pagination work correctly with plugins like Cakephp\Elasticsearch.
+
+## Installation
+
+The usual:
+
+``composer require josbeir/cakephp-paginator-sortmap``
+
+Then enable the plugin by adding it to your Application::bootstrap()
+
+``$this->addPlugin('Josbeir/Paginator');``
+
+### Controller example
+
+```php
+<?php
+namespace App\Controller;
+
+class FooController extends AppController
+{
+    public $paginate = [
+        'sortMap' => [
+            'name' => 'name',
+            'modified' => [ 'modified', 'name' ]
+        ]
+    ];
+    
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('Josbeir/Paginator.Paginator');
+    }
+    
+    public function index()
+    {
+        $results = $this->Paginator->paginate($this->Table, $options);
+    }
+}
+```
+
 ## Mapping sort => field
 
 In its simplest form you can just use the sortMap to rename sort keys:
