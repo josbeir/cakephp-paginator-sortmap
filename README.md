@@ -26,23 +26,25 @@ Then enable the plugin by adding it to your Application::bootstrap()
 namespace App\Controller;
 
 class FooController extends AppController
-{
-    public $paginate = [
-        'sortMap' => [
-            'name' => 'name',
-            'modified' => [ 'modified', 'name' ]
-        ]
-    ];
-    
+{    
     public function initialize()
     {
         parent::initialize();
+        
         $this->loadComponent('Josbeir/Paginator.Paginator');
     }
     
     public function index()
     {
-        $results = $this->Paginator->paginate($this->Table, $options);
+        $paginate = [
+            'sortMap' => [
+                'name' => 'name',
+                'modified' => [ 'modified', 'name' ]
+            ]
+        ];
+        
+        // paginate FooTable
+        $results = $this->Paginator->paginate($this->Foo, $paginate);
     }
 }
 ```
