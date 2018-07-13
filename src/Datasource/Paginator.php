@@ -196,6 +196,15 @@ class Paginator implements PaginatorInterface
         $requestedPage = $page;
         $page = min($page, $pageCount);
 
+        $start = 0;
+        if ($count >= 1) {
+            $start = (($page - 1) * $limit) + 1;
+        }
+        $end = $start + $limit - 1;
+        if ($count < $end) {
+            $end = $count;
+        }
+
         $order = (array)$options['order'];
         $sortDefault = $directionDefault = false;
         if (!empty($defaults['order']) && count($defaults['order']) === 1) {
@@ -209,6 +218,8 @@ class Paginator implements PaginatorInterface
             'current' => $numResults,
             'count' => $count,
             'perPage' => $limit,
+            'start' => $start,
+            'end' => $end,
             'prevPage' => $page > 1,
             'nextPage' => $count > ($page * $limit),
             'pageCount' => $pageCount,
