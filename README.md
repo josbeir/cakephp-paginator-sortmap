@@ -3,7 +3,7 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 [![Build Status](https://travis-ci.org/josbeir/cakephp-paginator-sortmap.svg?branch=master)](https://travis-ci.org/josbeir/cakephp-paginator-sortmap)
 
-(WIP) This plugin is a modified version of the built in cakephp paginator. Instead of using ``sortWhitelist`` there's  now a ``sortMap`` option where you can define mappings of fields to sort.
+This plugin is a modified version of the built in cakephp paginator. Instead of using ``sortWhitelist`` there's  now a ``sortMap`` option where you can define mappings of fields to sort.
 
 This plugin was created as a proof of concept after some discussion on slack and in an old [ticket](https://github.com/cakephp/cakephp/issues/10028#issuecomment-272812357) on the main cake repo.
 
